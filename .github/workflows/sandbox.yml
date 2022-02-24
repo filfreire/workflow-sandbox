@@ -1,0 +1,16 @@
+name: Sandbox
+
+on:
+  workflow_dispatch:
+
+concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+jobs:
+  setup-release-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug branch
+        run: echo "${{ github.repository }}"
