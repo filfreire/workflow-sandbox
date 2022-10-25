@@ -1,0 +1,31 @@
+name: Slack debug
+
+on:
+  workflow_dispatch:
+
+concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+jobs:
+  setup-release-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Debug branch
+        run: echo "${{ github.repository }}"
+
+      - name: Smoke tests Slack notification
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        if: always()
+        with:
+          # This data can be any valid JSON from a previous step in the GitHub Action
+          payload: |
+            {
+              "message": "[debug] this is a notification from github",
+              "jobUrl": "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID",
+              "status": "${{ job.status }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_TEST_RESULTS }}
