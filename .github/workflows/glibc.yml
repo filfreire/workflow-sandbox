@@ -1,0 +1,16 @@
+name: glibc
+
+on:
+  workflow_dispatch:
+
+concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+jobs:
+  glibc-debug:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: debug
+        run: echo "$(strings /lib64/libstdc++.so.6 | grep GLIBCXX)"
