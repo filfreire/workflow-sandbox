@@ -13,4 +13,4 @@ jobs:
 
     steps:
       - name: debug
-        run: echo "$(strings /lib64/libstdc++.so.6 | grep GLIBCXX)"
+        run: echo "$(strings /usr/lib/libstdc++.so.6 | grep GLIBCXX)"
